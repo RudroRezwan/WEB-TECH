@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Form Validation</title>
+</head>
+<body>
+<form id="myForm" onsubmit="return validateForm()">
+<label>Name:</label><br>
+<input type="text" id="name"><br><br>
+<label>Email:</label><br>
+<input type="text" id="email"><br><br>
+<label>Phone Number:</label><br>
+<input type="text" id="phone"><br><br>
+<label>Password:</label><br>
+<input type="password" id="password"><br><br>
+<label>Confirm Password:</label><br>
+<input type="password" id="confirmPassword"><br><br>
+<input type="submit" value="Submit">
+</form>
+<script>
+   function validateForm() {
+     const name = document.getElementById("name").value.trim();
+     const email = document.getElementById("email").value.trim();
+     const phone = document.getElementById("phone").value.trim();
+     const password = document.getElementById("password").value.trim();
+     const confirmPassword = document.getElementById("confirmPassword").value.trim();
+     if (name === "") {
+       alert("Name must be filled out");
+       return false;
+     }
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if (!emailRegex.test(email)) {
+       alert("Invalid email format");
+       return false;
+     }
+     const phoneRegex = /^\d{10}$/; // Only digits, exactly 10 characters
+     if (!phoneRegex.test(phone)) {
+       alert("Phone number must be 10 digits");
+       return false;
+     }
+     if (password.length < 6) {
+       alert("Password must be at least 6 characters long");
+       return false;
+     }
+     if (password !== confirmPassword) {
+       alert("Passwords do not match");
+       return false;
+     }
+     return true;
+   }
+</script>
+</body>
+</html> 
