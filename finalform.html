@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registration Layout</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      width: 800px;
+      height: 500px;
+      display: flex;
+      border: 2px solid black;
+      margin: 0 auto;
+    }
+
+    .left {
+      flex: 2;
+      border-right: 2px solid black;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-right, .bottom-right {
+      flex: 1;
+      border-bottom: 2px solid black;
+    }
+
+    .bottom-right {
+      border-bottom: none;
+    }
+
+    .register-form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .register-form h2 {
+      margin-bottom: 10px;
+    }
+
+    .register-form label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .register-form input,
+    .register-form select,
+    .register-form textarea {
+      padding: 8px;
+      margin-top: 4px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+        display: inline;
+        font-weight: normal;
+        margin-left: 5px;
+    }
+
+    .radio-group input,
+    .checkbox-group input[type="checkbox"] {
+        width: auto;
+        margin-right: 5px;
+    }
+
+    .register-form button {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .register-form button:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- LEFT SIDE: Registration Form -->
+  <div class="left">
+    <form class="register-form" id="registrationForm">
+      <h2>Registration</h2>
+
+      <label for="fullname">Full Name:</label>
+      <input type="text" id="fullname" name="fullname" required />
+      <div id="fullname-error" class="error-message"></div>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+      <div id="email-error" class="error-message"></div>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <div id="password-error" class="error-message"></div>
+
+      <label for="confirm-password">Confirm Password:</label>
+      <input type="password" id="confirm-password" name="confirm-password" required />
+      <div id="confirm-password-error" class="error-message"></div>
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob" required />
+      <div id="dob-error" class="error-message"></div>
+
+      <label for="country">Country:</label>
+      <select id="country" name="country" required>
+        <option value="">Select</option>
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="India">India</option>
+        <option value="Pakistan">Pakistan</option>
+        <option value="Nepal">Nepal</option>
+        <option value="USA">USA</option>
+        <option value="Australia">Australia</option>
+      </select>
+      <div id="country-error" class="error-message"></div>
+
+      <label>Gender:</label>
+      <div class="radio-group">
+        <input type="radio" id="male" name="gender" value="male" required />
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female" required />
+        <label for="female">Female</label>
+      </div>
+      <div id="gender-error" class="error-message"></div>
+
+      <label for="color">Favorite Color:</label>
+      <input type="color" id="color" name="color" />
+
+      <label for="opinion">Your Opinion:</label>
+      <textarea id="opinion" name="opinion" rows="3" cols="40"></textarea>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" name="terms" required />
+        <label for="terms">I agree to the <a href="#">terms and conditions</a></label>
+      </div>
+      <div id="terms-error" class="error-message"></div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- RIGHT SIDE: 2 Boxes -->
+  <div class="right">
+    <div class="top-right"></div>
+    <div class="bottom-right"></div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("registrationForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
+
+    const fullname = document.getElementById("fullname").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirm-password").value.trim();
+    const dob = document.getElementById("dob").value;
+    const country = document.getElementById("country").value;
+    const gender = document.querySelector('input[name="gender"]:checked');
+    const terms = document.getElementById("terms").checked;
+
+    let hasErrors = false;
+
+    if (fullname === "") {
+      document.getElementById("fullname-error").textContent = "Please enter your full name";
+      hasErrors = true;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === "") {
+      document.getElementById("email-error").textContent = "Please enter your email address";
+      hasErrors = true;
+    } else if (!emailRegex.test(email)) {
+      document.getElementById("email-error").textContent = "Please enter a valid email address";
+      hasErrors = true;
+    }
+
+    if (password === "") {
+      document.getElementById("password-error").textContent = "Please enter a password";
+      hasErrors = true;
+    } else if (password.length < 6) {
+      document.getElementById("password-error").textContent = "Password must be at least 6 characters long";
+      hasErrors = true;
+    }
+
+    if (confirmPassword === "") {
+      document.getElementById("confirm-password-error").textContent = "Please confirm your password";
+      hasErrors = true;
+    } else if (password !== confirmPassword) {
+      document.getElementById("confirm-password-error").textContent = "Passwords do not match";
+      hasErrors = true;
+    }
+
+    if (dob === "") {
+      document.getElementById("dob-error").textContent = "Please enter your date of birth";
+      hasErrors = true;
+    }
+
+    if (country === "") {
+      document.getElementById("country-error").textContent = "Please select your country";
+      hasErrors = true;
+    }
+
+    if (!gender) {
+      document.getElementById("gender-error").textContent = "Please select your gender";
+      hasErrors = true;
+    }
+
+    if (!terms) {
+      document.getElementById("terms-error").textContent = "Please agree to the terms and conditions";
+      hasErrors = true;
+    }
+
+    if (!hasErrors) {
+      alert("Form submitted successfully!");
+      document.getElementById("registrationForm").reset();
+    }
+  });
+</script>
+
+</body>
+</html>
